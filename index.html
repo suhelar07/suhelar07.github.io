@@ -1,43 +1,484 @@
-
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>مرحبًا بك في موقعي</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Suhelar | Developer</title>
+  <meta name="description" content="Application development & digital solutions." />
+
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f5f5f5;
+    :root{
+      --bg: #0b1020;
+      --card: rgba(255,255,255,0.08);
+      --card2: rgba(255,255,255,0.06);
+      --text: rgba(255,255,255,0.92);
+      --muted: rgba(255,255,255,0.68);
+      --border: rgba(255,255,255,0.14);
+      --shadow: 0 20px 60px rgba(0,0,0,0.45);
+      --radius: 18px;
+      --accent1: #7c3aed; /* purple */
+      --accent2: #22c55e; /* green */
+      --accent3: #38bdf8; /* sky */
+    }
+
+    *{ box-sizing: border-box; }
+    html, body { height: 100%; }
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans", "Apple Color Emoji","Segoe UI Emoji";
+      color: var(--text);
+      background:
+        radial-gradient(900px 500px at 10% 10%, rgba(124,58,237,0.30), transparent 60%),
+        radial-gradient(900px 500px at 90% 20%, rgba(56,189,248,0.25), transparent 55%),
+        radial-gradient(900px 500px at 55% 95%, rgba(34,197,94,0.18), transparent 55%),
+        linear-gradient(180deg, #070a14, var(--bg));
+      overflow-x: hidden;
+    }
+
+    /* subtle grid */
+    body:before{
+      content:"";
+      position: fixed;
+      inset:0;
+      pointer-events:none;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.06) 1px, transparent 1px);
+      background-size: 52px 52px;
+      mask-image: radial-gradient(700px 500px at 50% 15%, rgba(0,0,0,0.9), transparent 70%);
+      opacity: 0.25;
+    }
+
+    a{ color: inherit; text-decoration: none; }
+    .wrap{
+      width: min(1100px, 92vw);
+      margin: 0 auto;
+      padding: 28px 0 70px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* top bar */
+    .topbar{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 14px;
+      padding: 10px 0 18px;
+    }
+    .brand{
+      display:flex;
+      align-items:center;
+      gap: 12px;
+      font-weight: 700;
+      letter-spacing: 0.2px;
+    }
+    .logo{
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, rgba(124,58,237,0.9), rgba(56,189,248,0.85));
+      box-shadow: 0 18px 40px rgba(124,58,237,0.25);
+      position: relative;
+      overflow: hidden;
+    }
+    .logo:after{
+      content:"";
+      position:absolute;
+      inset:-60%;
+      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.5), transparent 45%);
+      transform: rotate(25deg);
+    }
+    .nav{
+      display:flex;
+      gap: 14px;
+      align-items:center;
+      color: var(--muted);
+      font-size: 14px;
+    }
+    .nav a{
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 1px solid transparent;
+      transition: .2s ease;
+    }
+    .nav a:hover{
+      color: var(--text);
+      background: rgba(255,255,255,0.05);
+      border-color: rgba(255,255,255,0.10);
+    }
+
+    /* hero */
+    .hero{
+      margin-top: 8px;
+      border: 1px solid var(--border);
+      border-radius: 26px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
+      box-shadow: var(--shadow);
+      overflow:hidden;
+      position: relative;
+    }
+    .hero:before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:
+        radial-gradient(600px 220px at 25% 0%, rgba(124,58,237,0.25), transparent 60%),
+        radial-gradient(600px 220px at 85% 10%, rgba(56,189,248,0.22), transparent 60%);
+      pointer-events:none;
+    }
+    .hero-inner{
+      display:grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 22px;
+      padding: 34px;
+      position: relative;
+      z-index: 1;
+    }
+    @media (max-width: 900px){
+      .hero-inner{ grid-template-columns: 1fr; }
+    }
+
+    .badge{
+      display:inline-flex;
+      gap: 10px;
+      align-items:center;
+      padding: 8px 12px;
+      border: 1px solid rgba(255,255,255,0.14);
+      background: rgba(255,255,255,0.05);
+      border-radius: 999px;
+      color: var(--muted);
+      font-size: 13px;
+      width: fit-content;
+    }
+    .dot{
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--accent2), var(--accent3));
+      box-shadow: 0 0 0 6px rgba(34,197,94,0.12);
+    }
+
+    h1{
+      margin: 14px 0 10px;
+      font-size: clamp(28px, 3.6vw, 44px);
+      line-height: 1.1;
+      letter-spacing: -0.6px;
+    }
+    .subtitle{
       margin: 0;
-      padding: 0;
-      direction: rtl;
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.7;
+      max-width: 62ch;
     }
-    .container {
-      max-width: 800px;
-      margin: 100px auto;
-      background: white;
-      padding: 40px;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+
+    .cta{
+      margin-top: 18px;
+      display:flex;
+      flex-wrap:wrap;
+      gap: 12px;
+      align-items:center;
     }
-    h1 {
-      color: #333;
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap: 10px;
+      padding: 11px 14px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.14);
+      background: rgba(255,255,255,0.06);
+      transition: .2s ease;
+      font-weight: 600;
+      font-size: 14px;
+      color: var(--text);
     }
-    p {
+    .btn:hover{
+      transform: translateY(-1px);
+      background: rgba(255,255,255,0.09);
+      border-color: rgba(255,255,255,0.22);
+    }
+    .btn.primary{
+      border-color: rgba(124,58,237,0.35);
+      background: linear-gradient(135deg, rgba(124,58,237,0.85), rgba(56,189,248,0.65));
+      box-shadow: 0 18px 40px rgba(124,58,237,0.18);
+    }
+    .btn.primary:hover{
+      filter: brightness(1.05);
+    }
+
+    /* right card */
+    .side{
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(0,0,0,0.18);
+      border-radius: 22px;
+      padding: 18px;
+      backdrop-filter: blur(10px);
+    }
+    .mini-title{
+      font-weight: 700;
+      margin: 2px 0 10px;
+      letter-spacing: 0.2px;
+    }
+    .mini{
+      display:flex;
+      flex-direction:column;
+      gap: 10px;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.6;
+    }
+    .pill-row{
+      display:flex;
+      flex-wrap:wrap;
+      gap: 8px;
+      margin-top: 10px;
+    }
+    .pill{
+      padding: 7px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.04);
+      font-size: 12.5px;
+      color: rgba(255,255,255,0.75);
+    }
+
+    /* sections */
+    .grid{
+      margin-top: 20px;
+      display:grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 14px;
+    }
+    .card{
+      border: 1px solid rgba(255,255,255,0.12);
+      background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
+      border-radius: var(--radius);
+      padding: 18px;
+      box-shadow: 0 14px 34px rgba(0,0,0,0.25);
+    }
+    .card h2{
+      margin: 0 0 10px;
       font-size: 18px;
-      line-height: 1.8;
-      color: #555;
+      letter-spacing: -0.2px;
+    }
+    .card p{
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.7;
+      font-size: 14.5px;
+    }
+    .span-7{ grid-column: span 7; }
+    .span-5{ grid-column: span 5; }
+    .span-4{ grid-column: span 4; }
+    .span-6{ grid-column: span 6; }
+    .span-12{ grid-column: span 12; }
+    @media (max-width: 900px){
+      .span-7,.span-5,.span-6,.span-4{ grid-column: span 12; }
+    }
+
+    .list{
+      margin: 10px 0 0;
+      padding: 0;
+      list-style: none;
+      display:flex;
+      flex-direction:column;
+      gap: 10px;
+    }
+    .item{
+      display:flex;
+      gap: 10px;
+      align-items:flex-start;
+      padding: 10px;
+      border-radius: 14px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.10);
+    }
+    .icon{
+      width: 34px;
+      height: 34px;
+      border-radius: 12px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.12);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      flex: 0 0 auto;
+    }
+    .item strong{
+      display:block;
+      font-size: 14px;
+      margin-bottom: 2px;
+      color: rgba(255,255,255,0.9);
+    }
+    .item span{
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.55;
+    }
+
+    /* footer */
+    footer{
+      margin-top: 18px;
+      color: rgba(255,255,255,0.55);
+      font-size: 13px;
+      display:flex;
+      justify-content:space-between;
+      gap: 10px;
+      flex-wrap:wrap;
+      padding: 0 4px;
+    }
+    .sep{
+      opacity: 0.45;
     }
   </style>
 </head>
+
 <body>
-  <div class="container">
-    <h1>مرحبًا، أنا سهيل</h1>
-    <p>
-      هذا موقعي الشخصي. أشارك هنا نبذة عني، اهتماماتي، وأعمالي.
-      <br><br>
-      هذا الموقع قيد التطوير، ترقبوا المزيد قريبًا 🚀
-    </p>
+  <div class="wrap">
+    <div class="topbar">
+      <div class="brand">
+        <div class="logo" aria-hidden="true"></div>
+        <div>
+          <div style="font-size:14px; color:rgba(255,255,255,0.75);">Suhelar</div>
+          <div style="font-size:12.5px; color:rgba(255,255,255,0.55); margin-top:2px;">Apps & Digital Solutions</div>
+        </div>
+      </div>
+
+      <div class="nav">
+        <a href="#about">About</a>
+        <a href="#services">Services</a>
+        <a href="#projects">Projects</a>
+        <a href="#contact">Contact</a>
+      </div>
+    </div>
+
+    <section class="hero" id="about">
+      <div class="hero-inner">
+        <div>
+          <div class="badge"><span class="dot"></span> Available for collaboration</div>
+
+          <h1>Welcome 👋</h1>
+
+          <!-- النسخة الأولى (كما اتفقنا) -->
+          <p class="subtitle">
+            Hello, I’m a developer specializing in application development and digital solutions.
+            I build modern, efficient, and user-friendly applications that help transform ideas into real digital products.
+          </p>
+
+          <p class="subtitle" style="margin-top:10px;">
+            This website highlights my skills, projects, and experience in software development and technology.
+          </p>
+
+          <div class="cta" id="contact">
+            <!-- عدّل الروابط لاحقاً -->
+            <a class="btn primary" href="mailto:your@email.com">Contact me</a>
+            <a class="btn" href="https://github.com/suhelar07" target="_blank" rel="noopener">GitHub</a>
+            <a class="btn" href="#" target="_blank" rel="noopener">LinkedIn</a>
+          </div>
+        </div>
+
+        <aside class="side">
+          <div class="mini-title">Quick Info</div>
+          <div class="mini">
+            <div>📍 Focus: Application Development & Digital Solutions</div>
+            <div>⚡ Approach: Fast, clean, and scalable builds</div>
+            <div>✅ Goal: Create high-quality products that users enjoy</div>
+          </div>
+
+          <div class="pill-row" style="margin-top:14px;">
+            <span class="pill">Web Apps</span>
+            <span class="pill">Mobile Apps</span>
+            <span class="pill">APIs</span>
+            <span class="pill">UI/UX</span>
+            <span class="pill">Automation</span>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="grid" id="services">
+      <div class="card span-7">
+        <h2>What I do</h2>
+        <p>
+          I help individuals and businesses build reliable applications and digital solutions.
+          From planning and design to development and deployment, I focus on quality, performance, and a smooth user experience.
+        </p>
+
+        <ul class="list">
+          <li class="item">
+            <div class="icon">🧩</div>
+            <div>
+              <strong>Application Development</strong>
+              <span>Modern apps with clean architecture and scalable structure.</span>
+            </div>
+          </li>
+          <li class="item">
+            <div class="icon">⚙️</div>
+            <div>
+              <strong>Digital Solutions</strong>
+              <span>Automation, integrations, and tools that improve productivity.</span>
+            </div>
+          </li>
+          <li class="item">
+            <div class="icon">🎨</div>
+            <div>
+              <strong>Modern UI</strong>
+              <span>Simple, elegant interfaces that look great on all devices.</span>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <div class="card span-5" id="projects">
+        <h2>Projects</h2>
+        <p>
+          Add your projects here (with links) to show your work.
+          You can list apps, websites, dashboards, or any digital solutions you’ve built.
+        </p>
+
+        <ul class="list" style="margin-top:12px;">
+          <li class="item">
+            <div class="icon">📌</div>
+            <div>
+              <strong>Project One</strong>
+              <span>Short description + link.</span>
+            </div>
+          </li>
+          <li class="item">
+            <div class="icon">📌</div>
+            <div>
+              <strong>Project Two</strong>
+              <span>Short description + link.</span>
+            </div>
+          </li>
+        </ul>
+
+        <div class="cta" style="margin-top:14px;">
+          <a class="btn" href="#" target="_blank" rel="noopener">View all projects</a>
+        </div>
+      </div>
+
+      <div class="card span-12">
+        <h2>Let’s build something great</h2>
+        <p>
+          If you have an idea or need a digital solution, feel free to reach out.
+          I’d be happy to discuss your project and suggest the best approach.
+        </p>
+      </div>
+    </section>
+
+    <footer>
+      <div>© <span id="year"></span> Suhelar. All rights reserved.</div>
+      <div class="sep">•</div>
+      <div>Built with GitHub Pages</div>
+    </footer>
   </div>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
 </body>
 </html>
+
